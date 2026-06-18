@@ -13,6 +13,14 @@ Skill 的入口文件，由 YAML front matter（`name` + `description`）和 Mar
 ### description（触发描述）
 `SKILL.md` front matter 中的关键字段，**直接决定 Skill 是否被 Agent 触发**。必须清晰描述「能做什么 / 何时用 / 何时不用」并覆盖典型触发词。
 
+### source（来源类型）
+`SKILL.md` front matter 中的必填字段，标识 Skill 来源：
+- `original`：本人原创，默认采用仓库 Apache-2.0 许可证，无需额外文件。
+- `collected`：公开收集的他人 Skill。**必须**填写 `author`、`source_url`、`license`，并附 `ATTRIBUTION.md`；原许可证 ≠ Apache-2.0 时还需保留原 `LICENSE`。
+
+### ATTRIBUTION.md
+`collected` 类 Skill 目录下的必需文件，记录原作者署名、原始链接、原许可证、抓取版本、本地改动说明，用于满足开源署名与许可证合规要求。
+
 ### kebab-case
 本仓库采用的命名风格：全小写 + 连字符，如 `code-review`、`git-commit`。
 

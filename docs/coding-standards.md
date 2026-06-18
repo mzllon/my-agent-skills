@@ -16,6 +16,35 @@
 | ------------- | ---- | -------------------------------------------------------------------------- |
 | `name`        | ✅   | Skill 唯一标识，需与目录名一致，kebab-case。                              |
 | `description` | ✅   | **决定 Agent 是否触发本 Skill 的关键**。需写清楚：能做什么、何时用、何时不用。 |
+| `source`      | ✅   | 来源类型：`original`（原创）或 `collected`（公开收集）。                  |
+| `author`      | collected 必需 | 原作者署名（个人 / 团队 / 组织名）。                              |
+| `source_url`  | collected 必需 | 原始来源 URL（仓库、博客、文档等）。                              |
+| `license`     | collected 必需 | 原 Skill 的许可证（如 MIT、Apache-2.0、GPL-3.0）。                |
+
+#### Front Matter 示例
+
+原创：
+
+```yaml
+---
+name: code-review
+description: 当用户要求评审代码……（覆盖触发词与适用场景）
+source: original
+---
+```
+
+收集：
+
+```yaml
+---
+name: git-commit
+description: 规范化 Git 提交流程……
+source: collected
+author: zcode-plugins-official
+source_url: https://github.com/.../git-commit
+license: Apache-2.0
+---
+```
 
 ### 2. description 撰写要点
 
@@ -55,11 +84,29 @@ skills/<skill-name>/
 ├── scripts/             # 可选，辅助脚本（Python / Node / Shell 等）
 ├── templates/           # 可选，模板文件
 ├── assets/              # 可选，静态资源
-└── README.md            # 可选，给人类阅读的说明（与 SKILL.md 互补）
+├── README.md            # 可选，给人类阅读的说明（与 SKILL.md 互补）
+├── ATTRIBUTION.md       # collected 类必需：原作者署名、来源链接、原许可证
+└── LICENSE              # collected 类必需（当原许可证 ≠ Apache-2.0 时）
 ```
 
 - 每个 Skill 目录应**自包含**，可独立拷贝使用。
 - 避免跨 Skill 的硬编码路径依赖。
+
+## 三-补、来源与许可证规范
+
+| source | 必需 front matter | 必需文件 |
+| --- | --- | --- |
+| `original` | `name`、`description`、`source` | 无（默认 Apache-2.0） |
+| `collected` | `name`、`description`、`source`、`author`、`source_url`、`license` | `ATTRIBUTION.md`；`LICENSE`（原许可证 ≠ Apache-2.0 时） |
+
+**`collected` 类硬性规则**：
+
+1. 不得删除 / 篡改原作者署名、版权声明、许可证声明。
+2. 原则上**保留原 SKILL.md 正文不动**，仅补充 front matter。如有本地化改动（翻译、适配），在 `ATTRIBUTION.md`「本地改动」一节如实记录。
+3. 原许可证**不明或无** → 不得收录。
+4. 上游更新同步后，更新 `ATTRIBUTION.md` 的「抓取版本」字段。
+
+`ATTRIBUTION.md` 模板见 [../CONTRIBUTING.md](../CONTRIBUTING.md) 第四节。
 
 ## 四、脚本规范
 
